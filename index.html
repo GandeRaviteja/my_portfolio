@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Gande Ravi Teja — Portfolio" />
+  <title>Gande Ravi Teja — Portfolio</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #111827;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --brand: #60a5fa;
+      --brand-2: #a78bfa;
+      --ring: rgba(96,165,250,.35);
+      --border: #1f2937;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    .container { width: min(1100px, 92%); margin: 0 auto; }
+    .grid { display: grid; gap: 1.25rem; }
+    .two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(11,15,20,.7);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: .5rem 0; }
+    .brand { display: flex; align-items: center; gap: .6rem; font-weight: 800; letter-spacing: .2px; }
+    .dot { width: 10px; height: 10px; background: linear-gradient(135deg, var(--brand), var(--brand-2)); border-radius: 999px; box-shadow: 0 0 0 4px var(--ring); }
+    .nav a { color: var(--muted); text-decoration: none; font-weight: 600; }
+    .nav a:hover, .nav a.active { color: var(--text); }
+    .links { display: flex; gap: 1.25rem; align-items: center; }
+    .btn { display: inline-flex; align-items: center; gap: .5rem; border: 1px solid var(--border); background: var(--panel); color: var(--text); padding: .55rem .9rem; border-radius: 12px; text-decoration: none; box-shadow: var(--shadow); }
+    .btn:hover { border-color: var(--brand); box-shadow: 0 12px 26px rgba(96,165,250,.15); }
+    .menu-toggle { display:none; }
+
+    .hero { padding: 64px 0 32px; }
+    .hero h1 { font-size: 48px; margin: .6rem 0 1rem; }
+    .hero p { color: var(--muted); font-size: 1.05rem; }
+    .hero .cta { display:flex; gap:.8rem; margin-top:1.25rem; flex-wrap: wrap; }
+    .primary { border: 1px solid transparent; background: linear-gradient(135deg, var(--brand), var(--brand-2)); color:#fff; }
+    .ghost { background: transparent; }
+
+    section { padding: 56px 0; border-top: 1px solid var(--border); }
+    .section-title { font-size: 1.6rem; margin: 0 0 .75rem; }
+    .muted { color: var(--muted); }
+
+    .about-card { background: var(--panel); border:1px solid var(--border); border-radius: 16px; padding: 1.25rem; box-shadow: var(--shadow); }
+    .avatar { width: 120px; height: 120px; border-radius: 16px; object-fit: cover; border:1px solid var(--border); }
+
+    .chip { display:inline-flex; align-items:center; gap:.4rem; padding:.4rem .65rem; border-radius:999px; border:1px solid var(--border); background: rgba(255,255,255,.02); margin:.25rem; font-weight:600; font-size:.9rem; }
+
+    /* Projects Hover Effect */
+    .card {
+      position: relative;
+      border:1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform .3s ease, border-color .3s ease;
+    }
+    .card:hover { transform: translateY(-6px); border-color: var(--brand); }
+    .thumb {
+      aspect-ratio: 16/14;
+      background: #0f172a;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color: var(--muted);
+      font-weight: 600;
+      transition: opacity .4s ease;
+    }
+    .card:hover .thumb { opacity: 0; }
+    .card-body {
+      position: absolute;
+      inset: 0;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all .4s ease;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 40%, transparent);
+    }
+    .card:hover .card-body {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .card-body h3 { margin: 0 0 .5rem; font-size: 1.2rem; color: var(--text); }
+    .badges { display:flex; flex-wrap: wrap; gap:.4rem; }
+    .badge { font-size:.75rem; border:1px solid var(--border); padding:.25rem .5rem; border-radius:999px; color: var(--muted); background: rgba(255,255,255,.05); }
+
+    form { display:grid; gap:.75rem; }
+    input, textarea { width: 100%; padding: .7rem .8rem; border-radius: 12px; border:1px solid var(--border); background: var(--panel); color: var(--text); outline: none; }
+    input:focus, textarea:focus { border-color: var(--brand); box-shadow: 0 0 0 4px var(--ring); }
+    textarea { min-height: 140px; resize: vertical; }
+
+    footer { padding: 28px 0 48px; border-top: 1px solid var(--border); color: var(--muted); }
+    /* Education Section */
+
+.edu-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+}
+
+.edu-icon {
+  font-size: 1.2rem;
+  margin-right: 1rem;
+}
+.edu-content {
+  flex: 1;
+}
+.edu-content h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+.edu-content p {
+  margin: 0.2rem 0;
+  font-size: 0.95rem;
+}
+.edu-year {
+  color: var(--muted);
+  font-weight: 600;
+  white-space: nowrap;
+  margin-left: 1.5rem;
+}
+
+
+    @media (max-width: 860px) {
+      .two { grid-template-columns: 1fr; }
+      .three { grid-template-columns: 1fr; }
+      .links { display:none; }
+      .menu-toggle { display:inline-flex; }
+      .mobile { display:none; position:absolute; left:0; right:0; top:56px; background: rgba(11,15,20,.95); border-bottom:1px solid var(--border); padding: .75rem 0; }
+      .mobile a { display:block; padding:.6rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="brand"><span class="dot"></span> <a href="#home" class="nav-home" style="color:var(--text); text-decoration:none">Gande Ravi Teja</a></div>
+      <div class="links" id="desktopLinks">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#education">Education</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+        <a href="G.Raviteja_Resume.pdf" class="btn" target="_blank" rel="noopener">Resume</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero container" id="home">
+    <h2> Hi, I’m</h2>
+    <h1>Gande Ravi Teja</h1>
+
+    <p>
+        Technology follower, active listener, and quick learner.<br> Enthusiastic about learning new things and passionate <br>about building innovative solutions.
+        Strong leader who<br> works under pressure while maintaining positivity.<br>
+        Dedicated to contributing to impactful projects in<br> embedded systems, web development, and AI.
+    </p>
+    <br>
+    <div class="cta">
+      <a class="btn primary" href="#projects">View Projects →</a>
+      <a class="btn ghost" href="#contact">Get in touch</a>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container grid two">
+      <div class="about-card">
+        <h2 class="section-title">About</h2>
+        <p class="muted">My objective is to learn and work in an environment that allows me to cope with the latest technology and widen my knowledge spectrum for the growth of the organization.</p>
+        <p>Achievements:</p>
+        <ul>
+          <li>Technical Lead for IVARNA-25’ Fest</li>
+          <li>2nd Place in College Hackathon</li>
+          <li>Member of Convolve Team </li>
+          <li>Was a member of Drone club in college 
+Got selected from 150 students. </li>
+        </ul>
+      </div>
+      <div class="grid" style="align-content:start; gap:1rem">
+        <img class="avatar" src="https://placehold.co/240x240/png" alt="Gande Ravi Teja" />
+        <div>
+          <div class="muted">Contact</div>
+          <div style="display:flex; gap:.8rem; margin-top:.4rem; flex-wrap:wrap">
+            <a class="btn" href="mailto:ganderaviteja66@gmail.com">Email</a>
+            <a class="btn" href="https://github.com/GandeRaviteja" target="_blank" rel="noopener">GitHub</a>
+            <a class="btn" href="https://www.linkedin.com/in/gande-ravi-teja-400b89354/" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="container">
+      <h2 class="section-title">Skills</h2>
+      <p class="muted">Technologies and tools I work with</p>
+      <div>
+        <span class="chip">Python</span>
+        <span class="chip">Java</span>
+        <span class="chip">C</span>
+        <span class="chip">HTML</span>
+        <span class="chip">CSS</span>
+        <span class="chip">Networking</span>
+        <span class="chip">System Design</span>
+        <span class="chip">VLSI Basics</span>
+        <span class="chip">DSA</span>
+        <span class="chip">Problem Solving</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+  <div class="container">
+    <h2 class="section-title">Education</h2>
+    <div class="edu-list">
+      <div class="edu-item">
+        <div class="edu-icon">🎓</div>
+        <div class="edu-content">
+          <h3>KL University</h3>
+          <p class="muted">B.Tech in Electronics & Communication Engineering</p>
+          <p>Specialization in Embedded System Design | CGPA: 9.6</p>
+        </div>
+        <div class="edu-year">2023 – 2027</div>
+      </div>
+      <br>
+      <div class="edu-item">
+        <div class="edu-icon">🎓</div>
+        <div class="edu-content">
+          <h3>Sri Chaitanya Junior College</h3>
+          <p class="muted">Board of Intermediate Education (MPC)</p>
+          <p>Scored 94%</p>
+        </div>
+        <div class="edu-year">2021 – 2023</div>
+      </div>
+      <br><br>
+  <!-- PROJECTS -->
+
+  <section id="projects">
+    <div class="container">
+      <h2 class="section-title">Projects</h2>
+      <p class="muted">A selection of my real projects</p>
+      <div class="grid three" id="projectGrid">
+        <article class="card">
+          <div class="thumb">Tourist Website Screenshot</div>
+          <div class="card-body">
+            <h3>Hyderabad Tourist Website</h3>
+            <p class="muted">Responsive website built using HTML & CSS showcasing Hyderabad attractions.</p>
+            <div class="badges"><span class="badge">HTML</span><span class="badge">CSS</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="thumb">VLSI Project</div>
+          <div class="card-body">
+            <h3>Ternary Logic Full Adder</h3>
+            <p class="muted">Designed using Cadence Virtuoso for advanced logic computation.</p>
+            <div class="badges"><span class="badge">VLSI</span><span class="badge">Cadence</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="thumb">AI Model</div>
+          <div class="card-body">
+            <h3>Salary Prediction Model</h3>
+            <p class="muted">Built using CNN for predicting salaries based on dataset analysis.</p>
+            <div class="badges"><span class="badge">Python</span><span class="badge">CNN</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="thumb">Embedded Project</div>
+          <div class="card-body">
+            <h3>ESP-32 Remote Surveillance</h3>
+            <p class="muted">Engineered an IoT-based remote surveillance system.</p>
+            <div class="badges"><span class="badge">ESP32</span><span class="badge">IoT</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="thumb">Robotics</div>
+          <div class="card-body">
+            <h3>Line-Following Robot</h3>
+            <p class="muted">Designed an autonomous robot that follows a path using sensors.</p>
+            <div class="badges"><span class="badge">Robotics</span><span class="badge">Sensors</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="thumb">Java GUI</div>
+          <div class="card-body">
+            <h3>Banquet Hall Booking System</h3>
+            <p class="muted">GUI-based booking system built in Java.</p>
+            <div class="badges"><span class="badge">Java</span><span class="badge">GUI</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container grid two">
+      <div>
+        <h2 class="section-title">Contact</h2>
+        <p class="muted">Feel free to reach out for collaborations or queries.</p>
+        <div style="margin-top:1rem; display:flex; gap:.75rem; flex-wrap:wrap">
+          <a class="btn" href="mailto:ganderaviteja66@gmail.com">ganderaviteja66@gmail.com</a>
+          <a class="btn ghost" href="https://www.linkedin.com/in/gande-ravi-teja-400b89354/" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn ghost" href="https://github.com/GandeRaviteja" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn ghost" href="https://t.me/ravitejagande" target="_blank" rel="noopener">Telegram</a>
+          <a class="btn ghost" href="https://www.instagram.com/_raviteja__24/?next=%2F" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap">
+      <div>© <span id="year"></span> Gande Ravi Teja</div>
+      <div style="display:flex; gap:.6rem">
+        <a class="btn ghost" href="#home">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Highlight active nav link when scrolling
+    const sections = ['about','skills','education','projects','contact'];
+    const navLinks = Array.from(document.querySelectorAll('.nav a')).filter(a => a.getAttribute('href')?.startsWith('#'));
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+id));
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
